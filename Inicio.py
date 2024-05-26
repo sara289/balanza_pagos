@@ -6,7 +6,10 @@ import os
 st.set_page_config(page_title='Balanza de Pagos',page_icon='⚖️')
 st.sidebar.header('Análisis Balanza de Pagos'+'⚖️')
 st.sidebar.image('logo banrep.png')
+
+
 st.sidebar.page_link('pages/Inicio2.py',label='🔗¿Qué es la balanza de pagos?')
+st.sidebar.page_link('pages/anexo.py',label='🔗 Algunas conclusiones')
 
 
 year = st.sidebar.selectbox('Seleccione el año que desee consultar:', list(range(2013, 2024)))

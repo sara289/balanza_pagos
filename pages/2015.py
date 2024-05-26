@@ -284,7 +284,7 @@ st.markdown('''**La cuenta financiera (incluyendo activos de reserva) en 2015, r
  
 st.sidebar.markdown('[Cuenta Financiera](#cuenta-financiera)')
  
-financiera =pd.read_excel('BOP.xlsx',sheet_name='Cuenta Financiera').loc[2:15,]
+financiera =pd.read_excel('BOP.xlsx',sheet_name='Cuenta Financiera').loc[14:15,]
 total = financiera[['Año','Cuenta financiera']]
 financiera = financiera.drop('Cuenta financiera',axis=1)
  
@@ -295,7 +295,7 @@ total['Año'] = total['Año'].astype('str')
 paleta= sns.color_palette(['#6A8CAF','#7A4F6D','#C5C6C7','#E8D2A6','#96C5F7'])
  
 plt.figure(figsize=(10, 6))
-sns.barplot(x='Año',y='Valor',hue='Grupo',data=financiera_melted,dodge=False,palette= paleta)
+sns.barplot(x='Año',y='Valor',hue='Grupo',data=financiera_melted,dodge=True,palette= paleta)
 sns.lineplot(x='Año',y='Cuenta financiera',data=total,color='black',marker='o',label='Cuenta financiera')
  
 #Personalización

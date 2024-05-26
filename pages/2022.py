@@ -134,7 +134,7 @@ st.markdown('''**Las compras realizadas al exterior totalizaron US$71.582m, con 
  
 st.subheader('Balanza de Servicios'+ ':beach_with_umbrella::oncoming_bus:',anchor='balanza-servicios')
  
-st.markdown('''En 2021 el comercio exterior de servicios registró un déficit de US\$4.761m, cifra inferior en US\$ 1.287m (21.0%) respecto a lo
+st.markdown('''En 2022 el comercio exterior de servicios registró un déficit de US\$4.761m, cifra inferior en US\$ 1.287m (21.0%) respecto a lo
             reportado el año anterior ( US\$6.517m) ''')
  
 st.sidebar.markdown('- [Balanza comercial Servicios](#balanza-servicios)')
@@ -285,7 +285,7 @@ st.markdown('''**La cuenta financiera (incluyendo activos de reserva) en 2022, r
  
 st.sidebar.markdown('[Cuenta Financiera](#cuenta-financiera)')
  
-financiera =pd.read_excel('BOP.xlsx',sheet_name='Cuenta Financiera').loc[9:22,]
+financiera =pd.read_excel('BOP.xlsx',sheet_name='Cuenta Financiera').loc[21:22,]
 total = financiera[['Año','Cuenta financiera']]
 financiera = financiera.drop('Cuenta financiera',axis=1)
  
@@ -296,7 +296,7 @@ total['Año'] = total['Año'].astype('str')
 paleta= sns.color_palette(['#6A8CAF','#7A4F6D','#C5C6C7','#E8D2A6','#96C5F7'])
  
 plt.figure(figsize=(10, 6))
-sns.barplot(x='Año',y='Valor',hue='Grupo',data=financiera_melted,dodge=False,palette= paleta)
+sns.barplot(x='Año',y='Valor',hue='Grupo',data=financiera_melted,dodge=True,palette= paleta)
 sns.lineplot(x='Año',y='Cuenta financiera',data=total,color='black',marker='o',label='Cuenta financiera')
  
 #Personalización

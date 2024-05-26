@@ -51,3 +51,20 @@ st.markdown('''Dada la complejidad para calcular con exactitud la diferencia ent
 
 
 st.sidebar.markdown("[Errores y Omisiones](#errores-y-omisiones)")
+
+st.header('❗¿Por qué es importante la balanza de pagos?',anchor='importancia')
+
+st.sidebar.markdown("[Importancia](#importancia)")
+
+st.markdown('''✔ Es un indicador de la salud económica de un país. Refleja el nivel de comercio internacional
+            y los flujos de capital, suministrando una visión integral de su situación económica
+            y su necesidad de financiación.
+
+✔ Proporciona información esencial para la formulación de política monetaria. Permite identificar desequilibrios
+            económicos y adoptar medidas de ajuste.
+                              
+✔  Influencia los tipos de cambio e incide sobre los niveles de inflación.
+            
+✔  Mide la competitividad de un país y su capacidad para generar ingresos a través del comercio internacional.
+            
+✔  Permite identificar relaciones de interdependencia bien sea de importaciones o de commodities sobre las exportaciones. ''')
