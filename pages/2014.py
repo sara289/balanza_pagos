@@ -277,7 +277,7 @@ st.markdown('''**La cuenta financiera (incluyendo activos de reserva) en 2014 re
  
 st.sidebar.markdown('[Cuenta Financiera](#cuenta-financiera)')
  
-financiera =pd.read_excel('BOP.xlsx',sheet_name='Cuenta Financiera').loc[12:13,]
+financiera =pd.read_excel('BOP.xlsx',sheet_name='Cuenta Financiera').loc[13:14,]
 total = financiera[['Año','Cuenta financiera']]
 financiera = financiera.drop('Cuenta financiera',axis=1)
  
