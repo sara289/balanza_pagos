@@ -4,47 +4,51 @@ import PIL
 import seaborn as sns
 import matplotlib.pyplot as plt
  
+ 
 st.header('Resultados Globales')
-
+st.sidebar.image('logo banrep.png')
+ 
 col1, col2, col3 = st.columns(3, gap='large')
  
 with col1:
     st.info('Cuenta Corriente :bar_chart:')
-    st.metric(label='Déficit', value= "US$12.722", delta="3.2% PIB", delta_color= "inverse")
+    st.metric(label='Déficit', value= "US$19.783", delta="5.2% PIB", delta_color= "inverse")
 with col2:
     st.info('Cuenta Financiera :bank:')
-    st.metric(label='Entradas Netas de Capital', value= "US$19.740", delta="5.1% PIB", delta_color= "inverse")
+    st.metric(label='Entradas Netas de Capital', value= "US$19.512", delta="5.2% PIB", delta_color= "inverse")
 with col3:
     st.info('Errores y Omisiones :money_with_wings:')
-    st.metric(label='Estimación', value= "US$625")
+    st.metric(label='Estimación', value= "US$270")
  
 # Resultados Globales
  
-st.markdown('''- En comparación con el año 2012, se incrementó en US$887 millones en déficit de cuenta corriente.  
-            Como proporción del PIB el déficit pasó de 3.1% a 3.2%.
-- La cuenta financiera registró un monto superior de US$1.779 millones al 2012.
-         En términos del PIB, este superávit se elevó anualmente de 4.7% a 5.1%.
-- Se registró una acumulación de reservas de US\$6.165 m originadas en transacciones de balanza de pagos y en
-        valorizaciones por tipo de cambio y precio. Esta acumulación fue superior en US\$994 m que en 2012.''')
+st.markdown('''- El déficit en cuenta corriente se profundizó para el 2014 al incrementarse en US\$ 7.450 m y
+            registró un valor de US\$ 19.783, este déficit se incrementó del 3.2% al 5.2%.
+- Por su parte,la cuenta financiera incluyendo variación de reservas internacionales, registró entradas de
+            capital por US$ 19.512, superiores a lo observado en 2013. Su equivalencia al PIB pasó de 3.1% a 5.2%.
+- La acumulación de reservas internaciones fue de US$4.437.''')
  
 # Cuenta Corriente
  
-st.header(':blue[Cuenta Corriente]',anchor='cuenta-corriente')
+st.header(':blue[Cuenta Corriente]', anchor='cuenta-corriente')
  
 st.markdown('''El **déficit de la cuenta corriente** se explica por el **balance deficitario en la renta de factores**
-(US\$ 14.656 m) y del **comercio exterior de servicios** (US \$5.470 m) que fue compensado parcialmente por **ingresos
-netos por transferencias corrientes** (US\$4.572 m) y el superávit obtenido en la cuenta de bienes (US\$2.832 m). El
-**resultado deficitario** se originó principalmente por el menor superávit comercial que superó los **menores egresos
-netos por renta de los factores.**
+(US\$ 12.783 m) y del **comercio exterior de bienes y servicios** (US \$11.280 m) que fue compensado parcialmente por **ingresos
+netos por transferencias corrientes** (US\$4.357 m)
 ''')
+ 
+st.info('''La **profundización del déficit** en 2014 se originó por el **balance negativo obtenido en la cuenta de bienes** que
+           contrasta con el superávit obtenido en 2013. Este comportamiento se dio **por una fuerte caída del precio del
+            petróleo** para el cuarto trimestre que afectó de manera significativa el resultado de la balanza comercial
+           y por ende el balance corriente.''',icon="🚨")
+ 
  
 st.sidebar.markdown('[Cuenta Corriente](#cuenta-corriente)')
  
 df = pd.read_excel('BOP.xlsx',sheet_name='Grafica')
  
-cc = df[['Año','Cuenta corriente']].loc[0:13,]
-df = df.drop(['Cuenta corriente'], axis=1).loc[0:13,]
- 
+cc = df[['Año','Cuenta corriente']].loc[1:14,]
+df = df.drop(['Cuenta corriente'], axis=1).loc[1:14,]
  
 df_melted= pd.melt(df, id_vars=['Año'], var_name='Grupo', value_name='Valor')
 df_melted['Año']=df_melted['Año'].astype('str')
@@ -55,7 +59,6 @@ plt.figure(figsize=(10, 6))
 sns.barplot(x='Año', y='Valor',hue='Grupo', data=df_melted, dodge=True, palette='rocket')
 sns.lineplot(x='Año', y='Cuenta corriente', data=cc, marker='o', color='black', label='Cuenta corriente')
  
- 
 # Personalizar la gráfica
 plt.title('Componentes de la cuenta corriente de la balanza de pagos de Colombia',weight='bold')
 plt.xlabel('Fecha')
@@ -63,19 +66,20 @@ plt.ylabel('Millones de USD')
 plt.xticks(rotation =45)
 plt.axhline(0, color='black',linewidth=0.5)
 plt.legend(loc='lower left')
-plt.show()
+ 
  
 # Mostrar la gráfica en Streamlit
 st.set_option('deprecation.showPyplotGlobalUse', False)
 st.pyplot()
  
+st.caption('Fuente: Banco de la República, elaboración propia')
 # Balanza Comercial: Bienes
  
-st.subheader('Balanza Comercial de Bienes'+':shopping_trolley:',anchor='balanza-bienes')
+st.subheader('Balanza Comercial de Bienes'+ ':shopping_trolley:',anchor='balanza-bienes')
  
-st.markdown('''La balanza comercial de bienes registró un superávit de US\$2.832, pero menor en US\$1.911 m al superávit
-            registrado en 2012, este comportamiento se dio por una reducción de las exportaciones y un incremento de las
-            importaciones.''')
+st.markdown('''La balanza comercial de bienes registró un déficit de US$ 4.694, este resultado se
+             explica por las tasas negativas de crecimiento de las exportaciones y una mayor actitud
+             importadora por parte del país que se observa desde el segundo trimestre de 2013.''')
  
 st.sidebar.markdown('- [Balanza Comercial Bienes](#balanza-bienes)')
  
@@ -85,9 +89,9 @@ bcs = pd.read_excel('BOP.xlsx',sheet_name='Grafica B.S')
  
 bcs['Año'] = pd.to_datetime(bcs['Serie']).dt.year
 bcs['Año'] = bcs['Año'].astype('str')
-balance_bienes = bcs[['Año','Balanza']].loc[0:13,]
+balance_bienes = bcs[['Año','Balanza']].loc[1:14,]
  
-bcs = bcs.drop(['Serie','Balanza'],axis=1).loc[0:13,]
+bcs = bcs.drop(['Serie','Balanza'],axis=1).loc[1:14,]
  
 bcs_melted = pd.melt(bcs, id_vars=['Año'],var_name='Grupo', value_name='Valor')
  
@@ -107,32 +111,33 @@ with col2:
     plt.xlabel('Fecha')
     plt.ylabel('Millones de USD')
     plt.xticks(rotation=45)
+    plt.axhline(0,color='black',linewidth=0.5)
     st.pyplot()
  
-st.markdown('''El grupo de exportaciones principales representó el 79% de valor exportado por el país.
-            Estas a su vez **registraron una disminución del 4.2% que se explicó por una reducción en el
-            precio y el volumen exportado de carbón y oro**.
+st.caption('Fuente: Banco de la República, elaboración propia')
+ 
+st.markdown('''**El grupo de los principales commodities exportados registró una disminución anual del 5.5%.**
+            Como ya se mencionó este resultado se explica por una caída en los precios de exportación de
+            petróleo crudo, que se sumó a la ya observada caída del carbón, oro y ferroníquel. Es importante
+            resaltar que **este descenso fue compensado ligeramente por el incremento en el volumen exportado de
+            bienes como el carbón, petróleo, café, flores y bananos**.
 ''')
  
-st.warning(''':bulb:
-            Este grupo está conformado por: carbón, ferroníquel, café, flores, banano, petróleo y oro ''')
- 
-st.markdown('''En 2013 las compras externas registraron un monto total de US$ 55.031 m, lo que significó un
-            aumento anual del 0.7%. Esta cifra se da en razón a un incremento en los volúmenes importados.''')
+st.markdown('''Las compras de bienes externos se ubicaron en US$ 61.676m y tuvieron un crecimiento anual del 8.0%.''')
  
 #Balanza Comercial Servicios
  
-st.subheader('Balanza de Servicios' + ':beach_with_umbrella::oncoming_bus:',anchor='balanza-servicios')
+st.subheader('Balanza de Servicios'+ ':beach_with_umbrella::oncoming_bus:',anchor='balanza-servicios')
  
-st.markdown('''La balanza de servicios tuvo un **balance deficitario** (US$5.470 m), pero su resultado fue similar
-            al obtenido en 2012.  Tanto **las exportaciones de servicios como las importaciones registraron
-            incrementos anuales**, sin embargo, las exportaciones lo hicieron en mayor proporción que las
-            importaciones (9.5% vs 4.3%).  Se destacó la participación de actividades relacionadas con viajes,
-            transporte y servicios empresariales.''')
+st.markdown('''Al igual que **la balanza de bienes**, el comercio exterior de servicios **registró un balance deficitario de
+            US$ 6.586 m** y fue superior al registrado en 2013. En este rubro se destacó la participación del transporte
+             y los viajes que representaron el 66% de del comercio global.
+            ''')
  
-st.sidebar.markdown('- [Balanza Comercial Servicios](#balanza-servicios)')
+st.sidebar.markdown('- [Balanza comercial Servicios](#balanza-servicios)')
  
-serv = pd.read_excel('BOP.xlsx',sheet_name='Servicios').loc[0:13,]
+ 
+serv = pd.read_excel('BOP.xlsx',sheet_name='Servicios').loc[1:14,]
 serv['Año'] = serv['Año'].astype('str')
 balance_servicios = serv[['Año','Balance']]
 serv = serv.drop('Balance',axis=1)
@@ -159,20 +164,26 @@ with col2:
  
 st.caption('Fuente: Banco de la República, elaboración propia')
  
+st.markdown('''Las **exportaciones de servicios ascendieron a US$ 6.937 m con un crecimiento de 1.1%**, esta
+             cifra estuvo impulsada mayoritariamente por mayores ingresos por concepto de **viajes** y también
+             por aumentos menores en el **rubro** de transporte.
+''')
+ 
+st.markdown('''Las **importaciones de servicios registraron un crecimiento anual de 5.7%** impulsado principalmente
+            por incrementos en los egresos por viajes.
+''')
 #Renta de los factores
  
 st.subheader('Renta de los factores'+ ':moneybag:',anchor='renta-factores')
  
-st.markdown('''Se obtuvo un balance deficitario para el rubro de la renta de los factores, más
-            sin embargo este fue 6.4% menor que el registrado en 2012.  Este déficit está explicado
-             en mayor proporción por giros netos de las utilidades (US\$ 11.442 m)  y en menor medida
-             por pagos netos de intereses (US\$ 3.193m)
-''')
+st.markdown('''**En el año 2014 la renta de factores obtuvo un balance deficitario (US\$12.859 m)**, pero inferior en
+            US\$ 1.319 m (9.3%) a lo registrado en 2013. Este menor balance deficitario se explica por la caída en
+            los egresos por renta factorial, así como por el crecimiento de los ingresos.''')
  
 st.sidebar.markdown('- [Renta de los factores](#renta-factores)')
  
-ingresos = pd.read_excel('BOP.xlsx', sheet_name= 'Ingresos').loc[0:13,]
-egresos = pd.read_excel('BOP.xlsx',sheet_name='Egresos').loc[0:13,]
+ingresos = pd.read_excel('BOP.xlsx', sheet_name= 'Ingresos').loc[1:14,]
+egresos = pd.read_excel('BOP.xlsx',sheet_name='Egresos').loc[1:14,]
  
 ingresos_netos = ingresos[['Año','Ingresos']]
 ingresos_netos['Año'] = ingresos_netos['Año'].astype('str')
@@ -191,7 +202,6 @@ with col1:
     ingresos_melted['Año'] = ingresos_melted['Año'].astype('str')
     sns.barplot(x='Año',y='Valor',hue='Grupo',data=ingresos_melted, palette='crest',dodge=False)
     sns.lineplot(x='Año',y='Ingresos',data=ingresos_netos,color='black',marker='o',label='Ingresos netos')
-    plt.title('Ingresos por renta factorial',weight='bold',fontsize=16)
     plt.ylabel('Millones de USD')
     plt.xlabel('Fecha')
     plt.xticks(rotation=45)
@@ -203,24 +213,40 @@ with col2:
     egresos_melted['Año'] = egresos_melted['Año'].astype('str')
     sns.barplot(x='Año',y='Valor',hue='Grupo',data=egresos_melted, palette='crest',dodge=False)
     sns.lineplot(x='Año',y='Egresos',data=egresos_netos,color='black',marker='o',label='Egresos')
-    plt.title('Egresos por renta factorial',weight='bold',fontsize=16)
     plt.ylabel('Millones de USD')
     plt.xlabel('Fecha')
     plt.xticks(rotation=45)
     plt.legend(loc='upper center',bbox_to_anchor=(0.5,-0.15),ncol=3)
     st.pyplot()
+st.caption('Fuente: Banco de la República, elaboración propia.')
+ 
+st.markdown('''El 73% de los egresos se originó en las utilidades de las empresas con IED y en menor cuantía
+            en los pagos de intereses asociados a títulos de deuda y préstamos y otros créditos externos.''')
+ 
+st.info('''Los **egresos por utilidades disminuyeron anualmente 10.1%**. Esto se dio por **menores ganancias** de las
+        firmas con capital extranjero que operan **en el sector minero-energético** y en menor proporción por los
+        **establecimientos financieros, transporte y comunicaciones**. Estas caídas fueron contrarrestadas por el
+        incremento de las utilidades de las empresas comerciales y manufactureras.''',icon='🔎')
+ 
+st.markdown('''Los ingresos por renta de los factores aumentaron 12.0%. Estos resultados se originaron mayoritariamente
+            en las utilidades de la IEDC. ''')
+ 
  
 # Transferencias corrientes
  
-st.subheader('Transferencias Corrientes'+':arrows_counterclockwise:',anchor='transferencias_corrientes')
+st.subheader('Transferencias Corrientes'+':arrows_counterclockwise:',anchor='transferencias-corrientes')
  
-st.markdown('''Se registraron ingresos netos de US\$4.572 m, con un nivel similar al registrado en 2012.
-             Las remesas de los trabajadores totalizaron US\$ 4.071 m (1.1% del PIB) representado un
-            incremento anual del 2.5%. Los ingresos por otras transferencias registraron una caída anual del 3.1%.''')
+st.markdown('''**Se registraron ingresos netos de US\$4.357 m, con un nivel 5.2% menor al de 2013. Las remesas de los
+            trabajadores totalizaron US\$ 4.093 m (1.1% del PIB) representado una caída anual del 7.0%.** Los ingresos
+             por otras transferencias registraron un aumento del 13.2% en comparación con el año anterior. Se
+            registraron egresos por transferencias al exterior por US\$ 950 m, con un crecimiento del 8.0%''')
  
-st.sidebar.markdown('- [Transferencias Corrientes](#transferencias_corrientes)')
+st.sidebar.markdown('- [Transferencias Corrientes](#transferencias-corrientes)')
  
-transferencias = pd.read_excel('BOP.xlsx',sheet_name='Transferencias').loc[0:13,]
+st.info('''Las remesas de los trabajadores cayeron por un menor número de transferencias provenientes de Venezuela,
+        que fueron compensadas por envíos mayores de Costa Rica, Chile y Brasil.''', icon='🔎')
+ 
+transferencias = pd.read_excel('BOP.xlsx',sheet_name='Transferencias').loc[1:14,]
 transferencias['Año'] = transferencias['Año'].astype('str')
 totales = transferencias[['Año','Transferencias corrientes']]
  
@@ -228,7 +254,6 @@ transferencias = transferencias.drop('Transferencias corrientes',axis=1)
  
 transferencias_melted = pd.melt(transferencias,id_vars='Año',var_name='Grupo',value_name='Valor')
  
-
 sns.barplot(x='Año',y='Valor',hue='Grupo',data=transferencias_melted, dodge=True,palette='viridis')
 sns.lineplot(x='Año',y='Transferencias corrientes', data=totales, color='black',marker='o',label='Transferencias netas')
  
@@ -238,12 +263,17 @@ plt.xlabel('Año')
 plt.xticks(rotation=45)
 st.pyplot()
  
+st.caption('Fuente: Banco de la República, elaboración propia.')
+ 
 #Cuenta Financiera
+ 
 st.header(':blue[Cuenta Financiera]',anchor='cuenta-financiera')
  
-st.markdown('''En 2013 la cuenta de capital y financiera registró un superávit de US\$ 19,174 m (5.1% del PIB),
-monto superior en US\$ 1,779 m al registrado en 2012. Los ingresos de capital extranjero
-ascendieron a US\$ 32,772 m y las salidas de capital colombiano a US\$ 13,598 m.''')
+st.markdown('''**La cuenta financiera (incluyendo activos de reserva) en 2014 registró entradas netas de capital
+            por US\$ 19.512m (5.2% del PIB)**. Cifra superior en US\$7.677m a lo observado en 2013. Estas entradas de
+            explican por ingresos de capital extranjero (US\$36.992m), salidas de capital colombiano (US\$12.716m), pagos por conceptos de derivados
+            financieros (US\$327m) y aumento de reservas internacionales por transacciones de la balanza de pagos
+            (US\$4.437m)''')
  
 st.sidebar.markdown('[Cuenta Financiera](#cuenta-financiera)')
  
@@ -258,7 +288,7 @@ total['Año'] = total['Año'].astype('str')
 paleta= sns.color_palette(['#6A8CAF','#7A4F6D','#C5C6C7','#E8D2A6','#96C5F7'])
  
 plt.figure(figsize=(10, 6))
-sns.barplot(x='Año',y='Valor',hue='Grupo',data=financiera_melted,dodge=True,palette= paleta)
+sns.barplot(x='Año',y='Valor',hue='Grupo',data=financiera_melted,dodge=True, palette= paleta)
 sns.lineplot(x='Año',y='Cuenta financiera',data=total,color='black',marker='o',label='Cuenta financiera')
  
 #Personalización
