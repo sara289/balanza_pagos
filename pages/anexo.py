@@ -43,7 +43,8 @@ st.markdown('''➡️ El ingreso secundario en el período de análisis obtuvo s
 remesas = pd.read_excel('BOP.xlsx',sheet_name='Remesas').loc[6:,]
  
 remesas.columns = ['Ingresos por remesas','Año']
- 
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
 plt.figure(figsize=(8, 4))
 sns.barplot(x='Año',y='Ingresos por remesas',data=remesas, color='darkgoldenrod')
  
