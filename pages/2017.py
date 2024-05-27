@@ -31,7 +31,7 @@ st.error('''**Importante:** La disminución de un punto porcentual se originó g
  
 st.markdown('''- La cuenta financiera (incluyendo las reservas internacionales) contabilizó entradas de capital por US\$ 9.694 m. En términos
             del PIB las entradas de capital representaron 3.1%, menor al 4.5% del año anterior
-- Los errores y omisiones en 2015 se estimaron en US$665 m.
+- Los errores y omisiones en 2017 se estimaron en US$665 m.
 ''')
  
 # Cuenta Corriente
