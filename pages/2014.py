@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
  
  
 st.header('Resultados Globales')
-st.sidebar.image('logo banrep.png')
+
  
 col1, col2, col3 = st.columns(3, gap='large')
  
